@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [
+        RouterModule.forRoot([])
+      ],
+      declarations: [
+        AppComponent
+      ],
     }).compileComponents();
   });
 
@@ -14,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'FSC_GUI' title`, () => {
+  it(`should have as title 'FSC_GUI_V1'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('FSC_GUI');
+    expect(app.title).toEqual('FSC_GUI_V1');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, FSC_GUI');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, FSC_GUI_V1');
   });
 });

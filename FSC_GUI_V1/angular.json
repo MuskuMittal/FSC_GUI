@@ -3,11 +3,18 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "FSC_GUI": {
+    "FSC_GUI_V1": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
         }
       },
       "root": "",
@@ -17,7 +24,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/fsc-gui",
+            "outputPath": "dist/fsc-gui-v1",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -64,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "FSC_GUI:build:production"
+              "buildTarget": "FSC_GUI_V1:build:production"
             },
             "development": {
-              "buildTarget": "FSC_GUI:build:development"
+              "buildTarget": "FSC_GUI_V1:build:development"
             }
           },
           "defaultConfiguration": "development"
