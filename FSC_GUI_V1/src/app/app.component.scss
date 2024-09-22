@@ -1,0 +1,22 @@
+.spinner {
+    position: absolute;
+    left: 48%;
+    top: 50%;
+    z-index: 99;
+}
+
+.faded {
+    opacity: 0.5;
+}
+
+.container__carausal {
+    margin-right: 5rem;
+    margin-left: 5rem;
+    margin-bottom: 5rem;
+}
+
+.container__table {
+    width: 90%;
+    overflow: scroll;
+    margin-left: 5rem;
+}

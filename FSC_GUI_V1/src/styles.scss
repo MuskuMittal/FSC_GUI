@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-grid-list {
+    padding-bottom: 6rem !important;
+
+    .mat-grid-tile {
+        padding-top: 6rem !important;
+    }
+} 
+
+.mdc-evolution-chip__text-label {
+    color: black     !important;
+}
+
+.mdc-evolution-chip-set__chips {
+    display: flex;
+    justify-content: space-between;
+}
+
+.custom-class-table {
+    overflow: scroll;
+    table, th, td {
+        border: 1px solid;
+        border-collapse: collapse;
+      }
+}
+
+.modal_default_main {
+    width: 70vw !important;
+}

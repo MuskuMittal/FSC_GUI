@@ -1,1 +1,12 @@
-<p>calender-view works!</p>
+<div>
+  <mat-chip-set>
+    <mat-chip color="error" (click)="previousMonth()">
+      Previous
+    </mat-chip>
+    <mat-chip (click)="nextMonth()">
+      Next
+    </mat-chip>
+  </mat-chip-set>
+
+</div>
+<daypilot-month #calendar [config]="config" [events]="events"></daypilot-month>
