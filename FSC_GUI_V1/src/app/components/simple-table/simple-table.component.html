@@ -1,77 +1,92 @@
 <table *ngIf="showTable" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="Change">
-      <th mat-header-cell *matHeaderCellDef> Change </th>
-      <td mat-cell *matCellDef="let element"> {{element.A}}</td>
-      
-    </ng-container>
-  
-    <ng-container matColumnDef="Summary">
-      <th mat-header-cell *matHeaderCellDef> Summary </th>
-      <td mat-cell *matCellDef="let element"> {{element.B}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="OWNERGROUP">
-      <th mat-header-cell *matHeaderCellDef> OWNERGROUP </th>
-      <td mat-cell *matCellDef="let element"> {{element.C}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="OWNER">
-      <th mat-header-cell *matHeaderCellDef> OWNER </th>
-      <td mat-cell *matCellDef="let element"> {{element.D}} </td>
-    </ng-container>
+  <ng-container matColumnDef="Change Number">
+    <th mat-header-cell *matHeaderCellDef> Change Number </th>
+    <td mat-cell *matCellDef="let element"> {{element.A}}</td>
 
-    <ng-container matColumnDef="STATUS">
-      <th mat-header-cell *matHeaderCellDef> STATUS </th>
-      <td mat-cell *matCellDef="let element"> {{element.E}} </td>
-    </ng-container>
+  </ng-container>
 
-    <ng-container matColumnDef="SCHEDSTART">
-      <th mat-header-cell *matHeaderCellDef> SCHEDSTART </th>
-      <td mat-cell *matCellDef="let element"> {{element.F}} </td>
-    </ng-container>
+  <ng-container matColumnDef="Summary">
+    <th mat-header-cell *matHeaderCellDef> Summary </th>
+    <td mat-cell *matCellDef="let element"> {{element.B}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="SCHEDEND">
-      <th mat-header-cell *matHeaderCellDef> SCHEDEND </th>
-      <td mat-cell *matCellDef="let element"> {{element.G}} </td>
-    </ng-container>
+  <ng-container matColumnDef="Status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let element"> {{element.C}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="CUSTOMER">
-      <th mat-header-cell *matHeaderCellDef> CUSTOMER </th>
-      <td mat-cell *matCellDef="let element"> {{element.H}} </td>
-    </ng-container>
+  <ng-container matColumnDef="Hostname">
+    <th mat-header-cell *matHeaderCellDef> Hostname </th>
+    <td mat-cell *matCellDef="let element"> {{element.D}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="CINUM">
-      <th mat-header-cell *matHeaderCellDef> CINUM </th>
-      <td mat-cell *matCellDef="let element"> {{element.I}} </td>
-    </ng-container>
-  
+  <ng-container matColumnDef="Scheduled Start">
+    <th mat-header-cell *matHeaderCellDef> Scheduled Start </th>
+    <td mat-cell *matCellDef="let element"> {{element.E}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="Master Application">
-      <th mat-header-cell *matHeaderCellDef> Master Application </th>
-      <td mat-cell *matCellDef="let element"> {{element.J}} </td>
-    </ng-container>
+  <ng-container matColumnDef="Scheduled Finish">
+    <th mat-header-cell *matHeaderCellDef> Scheduled Finish </th>
+    <td mat-cell *matCellDef="let element"> {{element.F}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="Kyndryl SM">
-      <th mat-header-cell *matHeaderCellDef> Kyndryl SM </th>
-      <td mat-cell *matCellDef="let element"> {{element.K}} </td>
-    </ng-container>
+  <ng-container matColumnDef="Owner Group">
+    <th mat-header-cell *matHeaderCellDef> Owner Group </th>
+    <td mat-cell *matCellDef="let element"> {{element.G}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="Danone PO">
-      <th mat-header-cell *matHeaderCellDef> Danone PO </th>
-      <td mat-cell *matCellDef="let element"> {{element.L}} </td>
-    </ng-container>
+  <ng-container matColumnDef="Owner Name">
+    <th mat-header-cell *matHeaderCellDef> Owner Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.H}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="Danone SM">
-      <th mat-header-cell *matHeaderCellDef> Danone SM </th>
-      <td mat-cell *matCellDef="let element"> {{element.M}} </td>
-    </ng-container>
+  <ng-container matColumnDef="Master Application">
+    <th mat-header-cell *matHeaderCellDef> Master Application </th>
+    <td mat-cell *matCellDef="let element"> {{element.I}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="Activity Type">
-      <th mat-header-cell *matHeaderCellDef> Activity Type </th>
-      <td mat-cell *matCellDef="let element"> {{element.N}} </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+
+  <ng-container matColumnDef="Environment">
+    <th mat-header-cell *matHeaderCellDef> Environment </th>
+    <td mat-cell *matCellDef="let element"> {{element.J}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Master Instance">
+    <th mat-header-cell *matHeaderCellDef> Master Instance </th>
+    <td mat-cell *matCellDef="let element"> {{element.K}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Danone PO">
+    <th mat-header-cell *matHeaderCellDef> Danone PO </th>
+    <td mat-cell *matCellDef="let element"> {{element.L}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Danone SM">
+    <th mat-header-cell *matHeaderCellDef> Danone SM </th>
+    <td mat-cell *matCellDef="let element"> {{element.M}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Kyndryl PO">
+    <th mat-header-cell *matHeaderCellDef> Kyndryl PO</th>
+    <td mat-cell *matCellDef="let element"> {{element.N}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Kyndryl SM">
+    <th mat-header-cell *matHeaderCellDef> Kyndryl SM </th>
+    <td mat-cell *matCellDef="let element"> {{element.O}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Activity Type">
+    <th mat-header-cell *matHeaderCellDef> Activity Type </th>
+    <td mat-cell *matCellDef="let element"> {{element.P}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Month">
+    <th mat-header-cell *matHeaderCellDef> Month </th>
+    <td mat-cell *matCellDef="let element"> {{element.Q}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

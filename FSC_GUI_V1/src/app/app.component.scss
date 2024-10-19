@@ -20,3 +20,17 @@
     overflow: scroll;
     margin-left: 5rem;
 }
+
+mat-toolbar {
+    justify-content: space-between;
+    span {
+        cursor: pointer;
+    }
+
+    .actions {
+        margin-right: 1rem;
+        span:last-child {
+            margin-left: 1rem;
+        }
+    }
+}

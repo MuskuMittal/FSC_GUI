@@ -1,47 +1,59 @@
 <div *ngIf="showSpinner" class="spinner"><mat-spinner></mat-spinner></div>
 <mat-toolbar>
     <span>FSC Report</span>
+    <span class="actions">
+        <span (click)="uploadNewFile()"><mat-icon aria-hidden="false" aria-label="Upload new File" fontIcon="upload"
+                title="Upload new xlsx file"></mat-icon></span>
+        <span (click)="refreshCache()"><mat-icon aria-hidden="false" aria-label="Refresh" fontIcon="cached"
+                title="Refresh"></mat-icon></span>
+    </span>
+
 </mat-toolbar>
 
 <div class="container" [class.faded]="showSpinner">
     <section class="container__dropdown">
         <form [formGroup]="filterForm">
-            <mat-grid-list cols="4" rowHeight="4:1">
+            <mat-grid-list cols="5">
                 <mat-grid-tile>
                     <mat-form-field>
-                        <mat-label>Year</mat-label>
-                        <mat-select formControlName="year" (selectionChange)="setYear()">
-                            @for (year of availableYears; track year) {
-                            <mat-option [value]="year">{{year}}</mat-option>
+                        <mat-label>Month and Year</mat-label>
+                        <input matInput [matDatepicker]="dp" formControlName="date">
+                        <mat-hint>MM/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+                        <mat-datepicker #dp startView="multi-year" (monthSelected)="setMonthAndYear($event, dp)"
+                            panelClass="example-month-picker">
+                        </mat-datepicker>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-form-field>
+                        <mat-label>Activity Type</mat-label>
+                        <mat-select formControlName="activity_type" (selectionChange)="updateFilter()">
+                            <mat-option [value]="''" selected>--Select--</mat-option>
+                            @for (activity of activityType; track activity) {
+                            <mat-option [value]="activity">{{activity}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <mat-form-field>
-                        <mat-label>Month</mat-label>
-                        <mat-select formControlName="month" (selectionChange)="setMonth()">
-                            <mat-option value="1">January</mat-option>
-                            <mat-option value="2">February</mat-option>
-                            <mat-option value="3">March</mat-option>
-                            <mat-option value="4">April</mat-option>
-                            <mat-option value="5">May</mat-option>
-                            <mat-option value="6">June</mat-option>
-                            <mat-option value="7">July</mat-option>
-                            <mat-option value="8">August</mat-option>
-                            <mat-option value="9">September</mat-option>
-                            <mat-option value="10">October</mat-option>
-                            <mat-option value="11">November</mat-option>
-                            <mat-option value="12">December</mat-option>
+                        <mat-label>Master Application</mat-label>
+                        <mat-select formControlName="m_app" (selectionChange)="updateFilter()">
+                            <mat-option [value]="''" selected>--Select--</mat-option>
+                            @for (m_app of masterApplicationType; track m_app) {
+                            <mat-option [value]="m_app">{{m_app}}</mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <mat-form-field>
-                        <mat-label>Activity Type</mat-label>
-                        <mat-select formControlName="activity_type" (selectionChange)="setActivity()">
-                            @for (activity of activityType; track activity) {
-                            <mat-option [value]="activity">{{activity}}</mat-option>
+                        <mat-label>Environment</mat-label>
+                        <mat-select formControlName="env" (selectionChange)="updateFilter()">
+                            <mat-option [value]="''" selected>--Select--</mat-option>
+                            @for (env of envType; track env) {
+                            <mat-option [value]="env">{{env}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
@@ -53,7 +65,7 @@
                         <mat-select formControlName="view_type" (selectionChange)="setView($event)">
                             <mat-option [value]="1">Calender View</mat-option>
                             <mat-option [value]="2">Table View</mat-option>
-                            
+
                         </mat-select>
                     </mat-form-field>
                 </mat-grid-tile>
@@ -61,8 +73,8 @@
         </form>
     </section>
     <section [hidden]="tableView" class="container__carausal">
-        <app-calender-view (activityData)="setActivityData($event)"
-            (updateDate)="updateDateDropDown($event)"></app-calender-view>
+        <app-calender-view (updateDate)="updateDateControl($event)"
+            (activityData)="setActivityData($event)"></app-calender-view>
     </section>
     <section [hidden]="!tableView" class="container__table">
         <app-simple-table></app-simple-table>

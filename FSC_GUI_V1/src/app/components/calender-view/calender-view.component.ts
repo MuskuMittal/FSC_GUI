@@ -20,6 +20,10 @@ export class CalenderViewComponent {
 
   config: any = {
     startDate: DayPilot.Date.today(),
+    eventDeleteHandling: "Disabled",
+    eventMoveHandling: "Disabled",
+    eventResizeHandling: "Disabled",
+    eventRightClickHandling: "Disabled",
     onEventClick: (args: any) => {
       const form = [
         {
@@ -27,20 +31,23 @@ export class CalenderViewComponent {
           html: `
           <table>
                 <tr>
-                  <th>Change</th>
+                  <th>Change Number</th>
                   <th>Summary</th>
-                  <th>OWNERGROUP</th>
-                  <th>OWNER</th>
-                  <th>STATUS</th>
-                  <th>SCHEDSTART</th>
-                  <th>SCHEDEND</th>
-                  <th>CUSTOMER</th>
-                  <th>CINUM</th>
+                  <th>Status</th>
+                  <th>Hostname</th>
+                  <th>Scheduled Start</th>
+                  <th>Scheduled Finish</th>
+                  <th>Owner Group</th>
+                  <th>Owner Name</th>
                   <th>Master Application</th>
-                  <th>Kyndryl SM</th>
+                  <th>Environment</th>
+                  <th>Master Instance</th>
                   <th>Danone PO</th>
                   <th>Danone SM</th>
+                  <th>Kyndryl PO</th>
+                  <th>Kyndryl SM</th>
                   <th>Activity Type</th>
+                  <th>Month</th>
                 </tr>
                 <tr>
                   <td>${args.e.data.rowData.A}</td>
@@ -57,11 +64,14 @@ export class CalenderViewComponent {
                   <td>${args.e.data.rowData.L}</td>
                   <td>${args.e.data.rowData.M}</td>
                   <td>${args.e.data.rowData.N}</td>
+                  <td>${args.e.data.rowData.O}</td>
+                  <td>${args.e.data.rowData.P}</td>
+                  <td>${args.e.data.rowData.Q}</td>
                 </tr>
           </table>
           ` }
       ];
-      DayPilot.Modal.form(form, {}, {cancelText: ''});
+      DayPilot.Modal.form(form, {}, { cancelText: '' });
     },
     onBeforeCellRender: (args: any) => {
       if (args.cell.start.getDatePart().getTime() === new DayPilot.Date().getDatePart().getTime()) {
@@ -72,42 +82,33 @@ export class CalenderViewComponent {
 
   events: any = [];
 
-  setNewMonth(filterData: any): void {
-    const year = filterData.year || DayPilot.Date.now().getYear();
-    const month = filterData.month || DayPilot.Date.now().getYear();
+  update(filterData: any): void {
     const day = DayPilot.Date.now().firstDayOfMonth().getDay();
-    this.calendar.control.startDate = DayPilot.Date.fromYearMonthDay(year, month, day);
-    this.calendar.control.update();
-  }
-
-  setNewYear(filterData: any): void {
-    const year = filterData.year || DayPilot.Date.now().getYear();
-    const month = filterData.month || DayPilot.Date.now().getYear();
-    const day = DayPilot.Date.now().firstDayOfMonth().getDay();
-    this.calendar.control.startDate = DayPilot.Date.fromYearMonthDay(year, month, day);
-    this.calendar.control.update();
-  }
-
-  setNewActivity(filterData: any): void {
-    const filteredData = this._xlsxHelper.filterActivityData(filterData);
+    this.calendar.control.startDate = DayPilot.Date.fromYearMonthDay(filterData.date.year(), filterData.date.month(), day);
+    const filteredData = this._xlsxHelper.filterDropDownData(filterData);
     this.activityData.emit(filteredData);
     this.prepareEvents(filteredData);
   }
 
   prepareEvents(filteredData: any) {
     const newEvents: any = [];
+    const labelColorMap: any = {};
     filteredData.forEach((row: any, index: number) => {
       let startDate: any = new Date(row[this._xlsxHelper.startDateColumnKey]);
       startDate = DayPilot.Date.fromYearMonthDay(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDay());
       let endDate: any = new Date(row[this._xlsxHelper.startDateColumnKey]);
       endDate = DayPilot.Date.fromYearMonthDay(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDay());
-      newEvents.push({
-        start: startDate,
-        end: endDate,
-        id: index + 1,
-        text: row[this._xlsxHelper.changeColumnKey],
-        rowData: row
-      })
+      const label = `${row[this._xlsxHelper.activityTypeColumnKey]} - ${row[this._xlsxHelper.hostNameKey]}`;
+      labelColorMap[label] = labelColorMap[label] || this.getRandomColor(filteredData.length / 2, index +1);
+      if (startDate.value.indexOf('NaN') === -1 && endDate.value.indexOf('NaN') === -1)
+        newEvents.push({
+          start: startDate,
+          end: endDate,
+          id: index + 1,  
+          text: label,
+          rowData: row,
+          barColor: labelColorMap[label]
+        })
     });
     this.calendar.events = newEvents;
     this.calendar.control.update();
@@ -131,6 +132,24 @@ export class CalenderViewComponent {
 
   updateMonthYear() {
     this.updateDate.emit(this.calendar.control.startDate);
+  }
+
+  getRandomColor(numOfSteps:number, step:number) {
+    let r:any, g:any, b:any;
+    var h = step / numOfSteps;
+    var i = ~~(h * 6);
+    var f = h * 6 - i;
+    var q = 1 - f;
+    switch(i % 6){
+        case 0: r = 1; g = f; b = 0; break;
+        case 1: r = q; g = 1; b = 0; break;
+        case 2: r = 0; g = 1; b = f; break;
+        case 3: r = 0; g = q; b = 1; break;
+        case 4: r = f; g = 0; b = 1; break;
+        case 5: r = 1; g = 0; b = q; break;
+    }
+    var c = "#" + ("00" + (~ ~(r * 255)).toString(16)).slice(-2) + ("00" + (~ ~(g * 255)).toString(16)).slice(-2) + ("00" + (~ ~(b * 255)).toString(16)).slice(-2);
+    return (c);
   }
 
 }

@@ -1,6 +1,7 @@
 import { DataSource } from '@angular/cdk/collections';
 import { Component, Input } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
+import { XlsxHelperService } from '../../services/xlsx-helper.service';
 
 @Component({
   selector: 'app-simple-table',
@@ -10,13 +11,14 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class SimpleTableComponent {
   @Input() ELEMENT_DATA: any;
   dataSource = new ExampleDataSource([]);
-  displayedColumns: string[] = ['Change', 'Summary', 'OWNERGROUP', 'OWNER', 'STATUS', 'SCHEDSTART', 'SCHEDEND', 'CUSTOMER', 'CINUM', 'Master Application', 'Kyndryl SM', 'Danone PO', 'Danone SM', 'Activity Type'];
+  displayedColumns: string[] = [];
   showTable:boolean | undefined;
 
-  constructor() {
+  constructor(private _xlsxHelper: XlsxHelperService) {
+    this.displayedColumns = this._xlsxHelper._excelConfig.headerNames;
   }
 
-  setNewData(data: any) {
+    setNewData(data: any) {
     this.showTable = true;
     this.dataSource.setData(data);
   }
