@@ -12,7 +12,8 @@ export class XlsxHelperService {
     acceptedHeades: 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R',
     activity_type_header_name: 'Activity Type',
     headerNames: ['Change Number', 'Summary', 'Status', 'Hostname', 'Scheduled Start', 'Scheduled Finish', 'Owner Group', 'Owner Name',
-      'Master Application', 'Environment', 'Master Instance', 'Danone PO', 'Danone SM', 'Kyndryl PO', 'Kyndryl SM', 'Activity Type', 'Month']
+      'Master Application', 'Environment', 'Master Instance', 'Danone PO', 'Danone SM', 'Kyndryl PO', 'Kyndryl SM', 'Activity Type', 'Month'],
+      date_format: 'DD-MM-YYYY'
   };
 
   cachedData: any;
@@ -38,9 +39,9 @@ export class XlsxHelperService {
       }
       const f = await fetch(`/${this._excelConfig.fileName}.xlsx`);
       const ab = await f.arrayBuffer();
-      const wb = read(ab, { sheets: this._excelConfig.workSheetName });
+      const wb = read(ab, { sheets: this._excelConfig.workSheetName, dateNF: this._excelConfig.date_format, raw: false });
       const ws = wb.Sheets[this._excelConfig.workSheetName];
-      this.cachedData = utils.sheet_to_json<any>(ws, { blankrows: false, defval: null, skipHidden: true, header: this._excelConfig.acceptedHeades.split(','), raw: false, dateNF: 'DD-MM-YYYY' });
+      this.cachedData = utils.sheet_to_json<any>(ws, { blankrows: false, defval: null, skipHidden: true, header: this._excelConfig.acceptedHeades.split(','), raw: false, dateNF: this._excelConfig.date_format });
       localStorage.setItem(this._excelConfig.workSheetName, JSON.stringify(this.cachedData));
     } catch (e) {
       this._snackBar.open(JSON.stringify(e));

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { DayPilot, DayPilotMonthComponent } from '@daypilot/daypilot-lite-angular';
 import { XlsxHelperService } from '../../services/xlsx-helper.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-calender-view',
@@ -94,21 +95,25 @@ export class CalenderViewComponent {
     const newEvents: any = [];
     const labelColorMap: any = {};
     filteredData.forEach((row: any, index: number) => {
-      let startDate: any = new Date(row[this._xlsxHelper.startDateColumnKey]);
-      startDate = DayPilot.Date.fromYearMonthDay(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDay());
-      let endDate: any = new Date(row[this._xlsxHelper.startDateColumnKey]);
-      endDate = DayPilot.Date.fromYearMonthDay(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDay());
-      const label = `${row[this._xlsxHelper.activityTypeColumnKey]} - ${row[this._xlsxHelper.hostNameKey]}`;
-      labelColorMap[label] = labelColorMap[label] || this.getRandomColor(filteredData.length / 2, index +1);
-      if (startDate.value.indexOf('NaN') === -1 && endDate.value.indexOf('NaN') === -1)
-        newEvents.push({
-          start: startDate,
-          end: endDate,
-          id: index + 1,  
-          text: label,
-          rowData: row,
-          barColor: labelColorMap[label]
-        })
+      if(index > 0) {
+        let startDate: any = moment(row[this._xlsxHelper.startDateColumnKey], this._xlsxHelper._excelConfig.date_format);
+        startDate = DayPilot.Date.fromYearMonthDay(startDate.year(), startDate.month() + 1, startDate.date());
+  
+        let endDate: any = moment(row[this._xlsxHelper.endColumnKey], this._xlsxHelper._excelConfig.date_format);
+        endDate = DayPilot.Date.fromYearMonthDay(endDate.year(), endDate.month() + 1, endDate.date());
+
+        const label = `${row[this._xlsxHelper.activityTypeColumnKey]} - ${row[this._xlsxHelper.hostNameKey]}`;
+        labelColorMap[label] = labelColorMap[label] || this.getRandomColor(filteredData.length / 2, index + 1);
+        if (startDate.value.indexOf('NaN') === -1 && endDate.value.indexOf('NaN') === -1)
+          newEvents.push({
+            start: startDate,
+            end: endDate,
+            id: index + 1,
+            text: label,
+            rowData: row,
+            barColor: labelColorMap[label]
+          })
+      }
     });
     this.calendar.events = newEvents;
     this.calendar.control.update();
@@ -134,19 +139,19 @@ export class CalenderViewComponent {
     this.updateDate.emit(this.calendar.control.startDate);
   }
 
-  getRandomColor(numOfSteps:number, step:number) {
-    let r:any, g:any, b:any;
+  getRandomColor(numOfSteps: number, step: number) {
+    let r: any, g: any, b: any;
     var h = step / numOfSteps;
     var i = ~~(h * 6);
     var f = h * 6 - i;
     var q = 1 - f;
-    switch(i % 6){
-        case 0: r = 1; g = f; b = 0; break;
-        case 1: r = q; g = 1; b = 0; break;
-        case 2: r = 0; g = 1; b = f; break;
-        case 3: r = 0; g = q; b = 1; break;
-        case 4: r = f; g = 0; b = 1; break;
-        case 5: r = 1; g = 0; b = q; break;
+    switch (i % 6) {
+      case 0: r = 1; g = f; b = 0; break;
+      case 1: r = q; g = 1; b = 0; break;
+      case 2: r = 0; g = 1; b = f; break;
+      case 3: r = 0; g = q; b = 1; break;
+      case 4: r = f; g = 0; b = 1; break;
+      case 5: r = 1; g = 0; b = q; break;
     }
     var c = "#" + ("00" + (~ ~(r * 255)).toString(16)).slice(-2) + ("00" + (~ ~(g * 255)).toString(16)).slice(-2) + ("00" + (~ ~(b * 255)).toString(16)).slice(-2);
     return (c);
