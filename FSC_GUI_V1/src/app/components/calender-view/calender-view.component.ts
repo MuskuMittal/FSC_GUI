@@ -83,12 +83,13 @@ export class CalenderViewComponent {
 
   events: any = [];
 
-  update(filterData: any): void {
+  update(filterData: any): number {
     const day = DayPilot.Date.now().firstDayOfMonth().getDay();
     this.calendar.control.startDate = DayPilot.Date.fromYearMonthDay(filterData.date.year(), filterData.date.month(), day);
     const filteredData = this._xlsxHelper.filterDropDownData(filterData);
     this.activityData.emit(filteredData);
     this.prepareEvents(filteredData);
+    return filteredData.length;
   }
 
   prepareEvents(filteredData: any) {

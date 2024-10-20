@@ -27,6 +27,7 @@ export class AppComponent {
   masterApplicationType: Array<string> = [];
   envType: Array<string> = [];
   private _snackBar = inject(MatSnackBar);
+  noOfRecords: number = 0;
 
   filterForm = new FormGroup({
     date: new FormControl(moment()),
@@ -57,7 +58,7 @@ export class AppComponent {
   }
 
   updateFilter() {
-    this.calender?.update(this.filterForm.getRawValue());
+    this.noOfRecords = this.calender?.update(this.filterForm.getRawValue()) || 0;
   }
 
   setView(e: MatSelectChange) {

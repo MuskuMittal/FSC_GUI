@@ -31,3 +31,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .modal_default_main {
     width: 70vw !important;
 }
+
+.month_default_main {
+    width: auto !important;
+}
+
+.month_default_event_inner {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.text-center {
+    text-align: center;
+}
