@@ -7,14 +7,13 @@
         <span (click)="refreshCache()"><mat-icon aria-hidden="false" aria-label="Refresh" fontIcon="cached"
                 title="Refresh"></mat-icon></span>
     </span>
-
 </mat-toolbar>
 
 <div class="container" [class.faded]="showSpinner">
     <section class="container__dropdown">
         <form [formGroup]="filterForm">
-            <mat-grid-list cols="5">
-                <mat-grid-tile>
+            <div class="tiles-parent">
+                <div>
                     <mat-form-field>
                         <mat-label>Month and Year</mat-label>
                         <input matInput [matDatepicker]="dp" formControlName="date">
@@ -24,42 +23,41 @@
                             panelClass="example-month-picker">
                         </mat-datepicker>
                     </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
+                </div>
+                <div>
                     <mat-form-field>
                         <mat-label>Activity Type</mat-label>
                         <mat-select formControlName="activity_type" (selectionChange)="updateFilter()">
-                            <mat-option [value]="''" selected>--Select--</mat-option>
+                            <mat-option [value]="''" selected>All</mat-option>
                             @for (activity of activityType; track activity) {
                             <mat-option [value]="activity">{{activity}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
+                </div>
+                <div [hidden]="hide_m_app">
                     <mat-form-field>
                         <mat-label>Master Application</mat-label>
                         <mat-select formControlName="m_app" (selectionChange)="updateFilter()">
-                            <mat-option [value]="''" selected>--Select--</mat-option>
+                            <mat-option [value]="''" selected>All</mat-option>
                             @for (m_app of masterApplicationType; track m_app) {
                             <mat-option [value]="m_app">{{m_app}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
+                </div>
+                <div>
                     <mat-form-field>
                         <mat-label>Environment</mat-label>
                         <mat-select formControlName="env" (selectionChange)="updateFilter()">
-                            <mat-option [value]="''" selected>--Select--</mat-option>
+                            <mat-option [value]="''" selected>All</mat-option>
                             @for (env of envType; track env) {
                             <mat-option [value]="env">{{env}}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
-                </mat-grid-tile>
-
-                <mat-grid-tile>
+                </div>
+                <div>
                     <mat-form-field>
                         <mat-label>View Type</mat-label>
                         <mat-select formControlName="view_type" (selectionChange)="setView($event)">
@@ -68,10 +66,13 @@
 
                         </mat-select>
                     </mat-form-field>
-                </mat-grid-tile>
-            </mat-grid-list>
+                </div>
+            </div>
         </form>
     </section>
+    <div class="text-center">
+        <span><i> {{noOfRecords}} Record(s) Found</i></span>
+    </div>
     <section [hidden]="tableView" class="container__carausal">
         <app-calender-view (updateDate)="updateDateControl($event)"
             (activityData)="setActivityData($event)"></app-calender-view>
@@ -79,7 +80,4 @@
     <section [hidden]="!tableView" class="container__table">
         <app-simple-table></app-simple-table>
     </section>
-    <div class="text-center">
-        <span><i> {{noOfRecords}} Record(s) Found</i></span>
-    </div>
 </div>

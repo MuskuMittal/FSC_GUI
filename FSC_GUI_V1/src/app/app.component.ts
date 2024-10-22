@@ -9,6 +9,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { default as _rollupMoment, Moment } from 'moment';
+import { MatGridList } from '@angular/material/grid-list';
 
 const moment = _rollupMoment || _moment;
 
@@ -20,7 +21,7 @@ const moment = _rollupMoment || _moment;
 export class AppComponent {
   @ViewChild(CalenderViewComponent) calender: CalenderViewComponent | undefined;
   @ViewChild(SimpleTableComponent) table: SimpleTableComponent | undefined;
-
+  
   showSpinner: boolean;
   tableView: boolean | undefined;
   activityType: Array<string> = [];
@@ -28,6 +29,7 @@ export class AppComponent {
   envType: Array<string> = [];
   private _snackBar = inject(MatSnackBar);
   noOfRecords: number = 0;
+  hide_m_app: boolean = false;
 
   filterForm = new FormGroup({
     date: new FormControl(moment()),
@@ -58,6 +60,13 @@ export class AppComponent {
   }
 
   updateFilter() {
+    const formValues = this.filterForm.getRawValue();
+    if (formValues.activity_type === '') {
+      this.filterForm.controls['m_app'].setValue('');
+      this.hide_m_app = true;
+    } else {
+      this.hide_m_app = false;
+    }
     this.noOfRecords = this.calender?.update(this.filterForm.getRawValue()) || 0;
   }
 
